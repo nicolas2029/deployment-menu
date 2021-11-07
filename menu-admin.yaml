@@ -1,40 +1,55 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-deployment
+  name: menu-admin-deployment
   labels:
-    app: postgres-db
+    app: menu-admin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres-db
+      app: menu-admin
   template:
     metadata:
       labels:
-        app: postgres-db
+        app: menu-admin
     spec:
       containers:
-      - name: postgres-db
-        image: postgres:alpine
+      - name: menu-admin
+        image: nicolas2029/menu-admin
         ports:
-        - containerPort: 5432
+        - containerPort: 3000
         env:
-        - name: POSTGRES_PASSWORD
+        - name: MENU-PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-db-secret
               key: postgres-root-password
-        - name: POSTGRES_USER
+        - name: MENU-USER
           valueFrom:
             secretKeyRef:
               name: postgres-db-secret
               key: postgres-root-user
-        - name: POSTGRES_DB
+        - name: MENU-RSA
+          valueFrom:
+            secretKeyRef:
+              name: ssh-key-secret
+              key: ssh-privatekey
+        - name: MENU-RSA-PUB
+          valueFrom:
+            secretKeyRef:
+              name: ssh-key-secret
+              key: ssh-publickey
+        - name: MENU-NAME-DB
           valueFrom:
             configMapKeyRef:
               name: postgres-db-configmap
               key: postgres-database
+        - name: MENU-HOST
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-db-configmap
+              key: postgres-url
         resources:
           limits:
             memory: "2G"
@@ -49,11 +64,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-db-service
+  name: menu-admin-service
 spec:
   selector:
-    app: postgres-db
+    app: menu-admin
+  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 5432
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000

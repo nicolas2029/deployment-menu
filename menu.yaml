@@ -1,40 +1,45 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-deployment
+  name: menu-deployment
   labels:
-    app: postgres-db
+    app: menu
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres-db
+      app: menu
   template:
     metadata:
       labels:
-        app: postgres-db
+        app: menu
     spec:
       containers:
-      - name: postgres-db
-        image: postgres:alpine
+      - name: menu
+        image: nicolas2029/get-menu
         ports:
-        - containerPort: 5432
+        - containerPort: 3000
         env:
-        - name: POSTGRES_PASSWORD
+        - name: MENU-PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-db-secret
               key: postgres-root-password
-        - name: POSTGRES_USER
+        - name: MENU-USER
           valueFrom:
             secretKeyRef:
               name: postgres-db-secret
               key: postgres-root-user
-        - name: POSTGRES_DB
+        - name: MENU-NAME-DB
           valueFrom:
             configMapKeyRef:
               name: postgres-db-configmap
               key: postgres-database
+        - name: MENU-HOST
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-db-configmap
+              key: postgres-url
         resources:
           limits:
             memory: "2G"
@@ -49,11 +54,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-db-service
+  name: menu-service
 spec:
   selector:
-    app: postgres-db
+    app: menu
+  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 5432
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
