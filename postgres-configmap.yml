@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-db-configmap
+data:
+  postgres-database: beerparacreer
+  postgres-url: postgres-db-service
