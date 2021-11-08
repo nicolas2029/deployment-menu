@@ -40,16 +40,6 @@ spec:
             configMapKeyRef:
               name: postgres-db-configmap
               key: postgres-url
-        resources:
-          limits:
-            memory: "2G"
-            cpu: 2
-            hugepages-2Mi: "200Mi"
-          requests:
-            memory: "2G"
-            cpu: 2
-            hugepages-2Mi: "200Mi"
-
 ---
 apiVersion: v1
 kind: Service

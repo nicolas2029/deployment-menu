@@ -36,14 +36,14 @@ spec:
               name: postgres-db-configmap
               key: postgres-database
         resources:
-          limits:
-            memory: "2G"
-            cpu: 2
-            hugepages-2Mi: "200Mi"
           requests:
             memory: "2G"
             cpu: 2
-            hugepages-2Mi: "200Mi"
+            hugepages-2Mi: "261Mi"
+          limits:
+            memory: "3.2G"
+            cpu: 4
+            hugepages-2Mi: "261Mi"
 
 ---
 apiVersion: v1
