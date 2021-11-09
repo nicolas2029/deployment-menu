@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: menu-admin
-        image: nicolas2029/menu-admin
+        image: nicolas2029/menu-admin:alpine
         ports:
         - containerPort: 3000
         env:

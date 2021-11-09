@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: menu
-        image: nicolas2029/get-menu
+        image: nicolas2029/get-menu:alpine
         ports:
         - containerPort: 3000
         env:
@@ -53,4 +53,4 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
-      nodePort: 30000
+      nodePort: 30001
