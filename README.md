@@ -6,7 +6,7 @@ Este proyecto utiliza 3 microservicios para almacenar, editar y mostrar el menu 
 
 Todas las imagenes creadas se encuentran en Docker Hub y cuentan con el tag latest y alpine
 
-### menu 
+### menu
 
 Se encarga de mostrar los platillos.
 
@@ -31,20 +31,34 @@ Utiliza boostrap, html, js, css y golang para montan un servidor que tenga todo 
 **Repositorios:**
 
 - [https://github.com/nicolas2029/frontend-beerparacreer](https://github.com/nicolas2029/frontend-beerparacreer)
-
+- <https://hub.docker.com/r/nicolas2029/front-beerparacreer>
 
 ## Despliegue
 
 Para poder utilizar este programa es necesario tener kubernetes.
 
-1. Clonar el repositorio
-2. Iniciar la red de nodos de kubernetes.
-3. Agregar los certificados ssh (rsa y rsa.pub) como secretos en kubernetes, se puede hacer esto con el siguiente comando: 
+- Clonar el repositorio
+- Iniciar la red de nodos de kubernetes.
+- Agregar los certificados ssh (rsa y rsa.pub) como secretos en kubernetes, se puede hacer esto con el siguiente comando, es necesario especificar la ruta correctamente:
 
 > kubectl create secret generic ssh-key-secret --from-file=ssh-privatekey=/root/deployment-menu/certificates/app.rsa --from-file=ssh-publickey=/root/deployment-menu/certificates/app.rsa.pub
 
-4. Aplicar todos los configmap y secret.
-5. Aplicar el archivo postgres.yaml.
-6. Aplicar los archivos yaml restantes.
+- Aplicar todos los archivos configmap y secret.
+
+> kubectl apply -f postgres-configmap.yml
+
+> kubectl apply -f postgres-secret.yaml
+
+- Aplicar el archivo postgres.yaml.
+
+> kubectl apply -f postgres.yaml
+
+- Aplicar los archivos yaml restantes.
+
+> kubectl apply -f menu.yaml
+
+> kubectl apply -f menu-admin.yaml
+
+> kubectl apply -f front.yaml
 
 Realizando los pasos anteriores se podra realizar el despliegue de la aplicación web.
