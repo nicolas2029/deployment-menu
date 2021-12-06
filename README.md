@@ -35,13 +35,32 @@ Utiliza boostrap, html, js, css y golang para montan un servidor que tenga todo 
 
 ## Despliegue
 
-Para poder utilizar este programa es necesario tener kubernetes.
+### Iniciar Docker
+
+> systemctl start docker
+
+### Iniciar Minikube
+
+> minikube start
+
+### Instalar Istio
+
+Este paso solo se realiza la primera vez que se ejecuta istio sobre el cluster de kubernetes
+
+> istioctl install --set profile=demo -y
+
+> kubectl label namespace default istio-injection=enabled
+
+Para comprobar que todo se ejecuta correctamente podemos ejecutar el siguiente comando:
+
+> kubectl -n istio-system get pods
+
+### Iniciar Software
 
 - Clonar el repositorio
-- Iniciar la red de nodos de kubernetes.
 - Agregar los certificados ssh (rsa y rsa.pub) como secretos en kubernetes, se puede hacer esto con el siguiente comando, es necesario especificar la ruta correctamente:
 
-> kubectl create secret generic ssh-key-secret --from-file=ssh-privatekey=/root/deployment-menu/certificates/app.rsa --from-file=ssh-publickey=/root/deployment-menu/certificates/app.rsa.pub
+> kubectl create secret generic ssh-key-secret --from-file=ssh-privatekey=$PWD/deployment-menu/certificates/app.rsa --from-file=ssh-publickey=$PWD/deployment-menu/certificates/app.rsa.pub
 
 - Aplicar todos los archivos configmap y secret.
 
@@ -62,3 +81,7 @@ Para poder utilizar este programa es necesario tener kubernetes.
 > kubectl apply -f front.yaml
 
 Realizando los pasos anteriores se podra realizar el despliegue de la aplicación web.
+
+### Visualizar dashboard
+
+> istioctl dashboard kiali
