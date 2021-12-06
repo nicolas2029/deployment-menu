@@ -1,5 +1,13 @@
 # deployment-menu
 
+## Integrantes
+
+- Hilario Raygoza Gutierrez
+- María del Carmen Lopez Macias
+- Nicolas Gomez Alvarez
+
+## Descripcion
+
 Este proyecto utiliza 3 microservicios para almacenar, editar y mostrar el menu de platillos de un restaura, existirá un usuario que podrá crear, editar y eliminar los platillos del menu, cualquier persona que visite la pagina de inicio podrá ver el menu.
 
 ## Microservicios
